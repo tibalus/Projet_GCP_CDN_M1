@@ -7,3 +7,4 @@ output "instance_internal_ip" {
   description = "The internal IP of the instance"
   value       = module.compute.instance_internal_ip
 }
+

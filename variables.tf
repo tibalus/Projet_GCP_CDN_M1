@@ -35,6 +35,7 @@ variable "environment" {
 # Tableau avec les instances
 variable "services" {
   default = {
-    "test" = { type = "A", ttl = 300, records = ["34.155.91.178"] }
+    "cdn" = { type = "A", ttl = 300, records = ["34.117.246.135"] }
+    "app" = { type = "A", ttl = 300, records = instance_internal_ip}
   }
 }
