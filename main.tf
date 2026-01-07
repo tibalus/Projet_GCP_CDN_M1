@@ -15,6 +15,12 @@ module "compute" {
   ssh_keys      = var.ssh_keys
 }
 
+module "load_balancer" {
+  source         = "./modules/load_balancer"
+  project_id     = var.project_id
+  instance_group = module.compute.instance_group
+}
+
 module "dns" {
   source = "./modules/dns"
 
@@ -31,13 +37,12 @@ module "dns" {
     project     = "tp1"
   }
 
-  # Conversion de la map services en liste d'objets
   dns_records = [
-    for name, config in var.services : {
-      name    = name
-      type    = config.type
-      ttl     = config.ttl
-      records = config.records
+    {
+      name    = "test"
+      type    = "A"
+      ttl     = 300
+      records = [module.load_balancer.lb_ip_address]
     }
   ]
 }
