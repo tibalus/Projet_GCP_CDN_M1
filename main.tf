@@ -41,3 +41,9 @@ module "dns" {
     }
   ]
 }
+
+module "cdn" {
+  source = "./modules/cdn"
+  project_id = var.project_id
+  name_prefix = "c1erc8q7r31"
+}
