@@ -2,27 +2,11 @@ resource "google_dns_managed_zone" "this" {
   name        = var.zone_name
   dns_name    = var.domain
   description = var.zone_description
+  visibility  = var.zone_type
 
-  visibility = var.zone_type
-
-  dynamic "private_visibility_config" {
-    for_each = var.zone_type == "private" ? [1] : []
-    content {
-      dynamic "networks" {
-        for_each = var.private_visibility_networks
-        content {
-          network_url = networks.value
-        }
-      }
-    }
-  }
-
-  # DNSSEC pour les zones publiques (optionnel)
-  dynamic "dnssec_config" {
-    for_each = var.enable_dnssec && var.zone_type == "public" ? [1] : []
-    content {
-      state = "on"
-    }
+  # DNSSEC - uniquement si activé
+  dnssec_config {
+    state = var.enable_dnssec ? "on" : "off"
   }
 
   labels = var.labels
