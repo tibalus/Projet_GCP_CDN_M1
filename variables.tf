@@ -20,3 +20,21 @@ variable "ssh_keys" {
   description = "Public SSH keys to access the instance. Format: 'user:ssh-rsa ...'"
   type        = string
 }
+
+variable "domain" {
+  description = "Domaine principal"
+  type        = string
+  default     = "groupe1.pierremalherbe.com."
+}
+
+variable "environment" {
+  description = "Environnement (dev, staging, prod)"
+  type        = string
+  default     = "dev"
+}
+# Tableau avec les instances
+variable "services" {
+  default = {
+    "test" = { type = "A", ttl = 300, records = ["34.155.91.178"] }
+  }
+}
