@@ -29,6 +29,21 @@ resource "google_compute_firewall" "allow_ssh" {
   target_tags   = ["ssh-enabled"]
 }
 
+# Firewall rule for HTTP
+resource "google_compute_firewall" "allow_http" {
+  name    = "${var.vpc_name}-allow-http"
+  network = google_compute_network.vpc.name
+  project = var.project_id
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80"]
+  }
+
+  source_ranges = ["0.0.0.0/0"]
+  target_tags   = ["frontend"]
+}
+
 # Firewall rule for internal communication
 resource "google_compute_firewall" "allow_internal" {
   name    = "${var.vpc_name}-allow-internal"
