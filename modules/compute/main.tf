@@ -30,3 +30,18 @@ resource "google_compute_instance" "vm_instance" {
     echo "Instance Test" > /var/www/html/index.html
   EOF
 }
+
+resource "google_compute_instance_group" "webservers" {
+  name        = "webservers-ig"
+  description = "Terraform-managed instance group"
+  zone        = var.zone
+
+  instances = [
+    google_compute_instance.vm_instance.self_link,
+  ]
+
+  named_port {
+    name = "http"
+    port = 80
+  }
+}
