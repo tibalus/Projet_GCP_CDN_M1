@@ -1,5 +1,10 @@
 # Projet GCP CDN M1
 
+liliannollad DALLON Lilian 
+jaysonPV PONCEY--VALDEMAR Jayson
+tibalus ROGER Tibo
+fbotel17 BOTEL Faustin
+
 Documentation générée automatiquement via la pipeline CI.
 
 <!-- BEGIN_TF_DOCS -->
