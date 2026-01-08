@@ -18,6 +18,11 @@ output "mig_self_link" {
   value       = google_compute_region_instance_group_manager.mig.self_link
 }
 
+output "instance_group" {
+  description = "The instance group URL"
+  value       = google_compute_region_instance_group_manager.mig.instance_group
+}
+
 output "mig_instance_group" {
   description = "The instance group URL"
   value       = google_compute_region_instance_group_manager.mig.instance_group

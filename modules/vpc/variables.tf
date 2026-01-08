@@ -22,3 +22,8 @@ variable "region" {
   description = "GCP region for the subnet"
   type        = string
 }
+
+variable "network_name" {
+  description = "The name of the VPC network"
+  type        = string
+}

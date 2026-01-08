@@ -10,6 +10,12 @@ variable "region" {
   default     = "europe-west1"
 }
 
+variable "zone" {
+  description = "GCP zone for resources"
+  type        = string
+  default     = "europe-west1-b"
+}
+
 variable "environment" {
   description = "Environment name (dev, staging, prod)"
   type        = string

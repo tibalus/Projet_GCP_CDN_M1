@@ -1,22 +1,22 @@
-
-
-# VPC1 - 10.0.2.0/16 pour les instances Frontend
+# VPC1 - 10.0.2.0/24 pour les instances Frontend
 module "vpc1_frontend" {
   source = "./modules/vpc"
 
+  vpc_name = "vpc1-frontend"
   project_id  = var.project_id
-  vpc_name    = "vpc1-frontend"
+  network_name = "vpc1-frontend"
   subnet_name = "vpc1-subnet-frontend"
   subnet_cidr = "10.0.2.0/24"
   region      = var.region
 }
 
-# VPC2 - 10.0.3.0/16 pour les instances Backend
+# VPC2 - 10.0.3.0/24 pour les instances Backend
 module "vpc2_backend" {
   source = "./modules/vpc"
 
+  vpc_name = "vpc2-backend"
   project_id  = var.project_id
-  vpc_name    = "vpc2-backend"
+  network_name = "vpc2-backend"
   subnet_name = "vpc2-subnet-backend"
   subnet_cidr = "10.0.3.0/24"
   region      = var.region
@@ -76,19 +76,18 @@ module "backend_instances" {
 
   service_account_email  = var.service_account_email
   service_account_scopes = ["cloud-platform"]
+}
+
 module "vpc_bastion" {
-  source = "./modules/network"
+  source = "./modules/vpc"
 
+  vpc_name     = "vpc-bastion"
   project_id   = var.project_id
-  network_name = "vpc1"
+  network_name = "vpc-bastion"
   region       = var.region
+  subnet_name = "subnet-bastion"
+  subnet_cidr = "10.0.1.0/24"
 
-  subnets = {
-    bastion = {
-      name = "subnet-bastion"
-      cidr = "10.0.1.0/24"
-    }
-  }
 }
 
 module "bastion" {
@@ -106,23 +105,6 @@ module "bastion" {
   environment         = var.environment
 
   startup_script = file("${path.module}/scripts/bastion-startup.sh")
-}
-
-module "network" {
-  source       = "./modules/network"
-  region       = var.region
-  network_name = "network-test"
-  subnet_name  = "subnet-test"
-  subnet_range = "10.0.0.0/24"
-}
-
-module "compute" {
-  source        = "./modules/compute"
-  instance_name = "instance-test"
-  zone          = var.zone
-  subnet_id     = module.network.subnet_id
-  internal_ip   = "10.0.0.4"
-  ssh_keys      = var.ssh_keys
 }
 
 module "load_balancer" {

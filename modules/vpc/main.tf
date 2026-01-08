@@ -7,11 +7,44 @@ resource "google_compute_network" "vpc" {
 
 # Subnet
 resource "google_compute_subnetwork" "subnet" {
+  # for_each = var.subnets
+
   name          = var.subnet_name
   ip_cidr_range = var.subnet_cidr
   region        = var.region
   network       = google_compute_network.vpc.id
   project       = var.project_id
+
+  private_ip_google_access = true
+
+  log_config {
+    aggregation_interval = "INTERVAL_10_MIN"
+    flow_sampling        = 0.5
+    metadata             = "INCLUDE_ALL_METADATA"
+  }
+}
+
+# Cloud Router pour NAT
+resource "google_compute_router" "router" {
+  name    = "${var.vpc_name}-router"
+  region  = var.region
+  network = google_compute_network.vpc.id
+  project = var.project_id
+}
+
+# Cloud NAT pour permettre aux instances privées d'accéder à Internet
+resource "google_compute_router_nat" "nat" {
+  name                               = "${var.vpc_name}-nat"
+  router                             = google_compute_router.router.name
+  region                             = var.region
+  nat_ip_allocate_option             = "AUTO_ONLY"
+  source_subnetwork_ip_ranges_to_nat = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+  project                            = var.project_id
+
+  log_config {
+    enable = true
+    filter = "ERRORS_ONLY"
+  }
 }
 
 # Firewall rule for SSH
@@ -64,3 +97,12 @@ resource "google_compute_firewall" "allow_internal" {
 
   source_ranges = [var.subnet_cidr]
 }
+
+# VPC Peering (si nécessaire entre VPCs)
+# resource "google_compute_network_peering" "peering" {
+#   count = var.peer_network_self_link != "" ? 1 : 0
+
+#   name         = "${var.vpc_name}-peering"
+#   network      = google_compute_network.vpc.id
+#   peer_network = var.peer_network_self_link
+# }
