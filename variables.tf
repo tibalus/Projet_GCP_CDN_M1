@@ -33,3 +33,11 @@ variable "environment" {
   default     = "dev"
 }
 
+# ========================================
+# Bastion Configuration
+# ========================================
+variable "bastion_machine_type" {
+  description = "Type de machine pour le bastion"
+  type        = string
+  default     = "e2-micro"
+}
