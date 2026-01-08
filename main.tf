@@ -2,24 +2,24 @@
 module "vpc1_frontend" {
   source = "./modules/vpc"
 
-  vpc_name = "vpc1-frontend"
-  project_id  = var.project_id
+  vpc_name     = "vpc1-frontend"
+  project_id   = var.project_id
   network_name = "vpc1-frontend"
-  subnet_name = "vpc1-subnet-frontend"
-  subnet_cidr = "10.0.2.0/24"
-  region      = var.region
+  subnet_name  = "vpc1-subnet-frontend"
+  subnet_cidr  = "10.0.2.0/24"
+  region       = var.region
 }
 
 # VPC2 - 10.0.3.0/24 pour les instances Backend
 module "vpc2_backend" {
   source = "./modules/vpc"
 
-  vpc_name = "vpc2-backend"
-  project_id  = var.project_id
+  vpc_name     = "vpc2-backend"
+  project_id   = var.project_id
   network_name = "vpc2-backend"
-  subnet_name = "vpc2-subnet-backend"
-  subnet_cidr = "10.0.3.0/24"
-  region      = var.region
+  subnet_name  = "vpc2-subnet-backend"
+  subnet_cidr  = "10.0.3.0/24"
+  region       = var.region
 }
 
 # Managed Instance Group pour Frontend dans VPC1
@@ -85,8 +85,8 @@ module "vpc_bastion" {
   project_id   = var.project_id
   network_name = "vpc-bastion"
   region       = var.region
-  subnet_name = "subnet-bastion"
-  subnet_cidr = "10.0.1.0/24"
+  subnet_name  = "subnet-bastion"
+  subnet_cidr  = "10.0.1.0/24"
 
 }
 
@@ -98,7 +98,7 @@ module "bastion" {
   region              = var.region
   zone                = var.zone
   network_name        = module.vpc_bastion.network_name
-  subnet_self_link = module.vpc_bastion.subnet_self_link
+  subnet_self_link    = module.vpc_bastion.subnet_self_link
   bastion_internal_ip = "10.0.1.10"
   machine_type        = var.bastion_machine_type
   enable_external_ip  = false
@@ -114,13 +114,13 @@ module "load_balancer" {
 }
 
 module "cdn" {
-  source = "./modules/cdn"
-  project_id = var.project_id
+  source      = "./modules/cdn"
+  project_id  = var.project_id
   name_prefix = "coucou-cdn-65161131616561981516515155555555"
 }
 
 module "dns" {
-  source = "./modules/dns"
+  source           = "./modules/dns"
   project_id       = var.project_id
   zone_name        = "groupe1-${var.environment}"
   domain           = var.domain
@@ -142,9 +142,9 @@ module "dns" {
       records = [module.load_balancer.lb_ip_address]
     },
     {
-      name = "cdn"
-      type = "A"
-      ttl = 300
+      name    = "cdn"
+      type    = "A"
+      ttl     = 300
       records = [module.cdn.cdn_external_ip]
     }
   ]

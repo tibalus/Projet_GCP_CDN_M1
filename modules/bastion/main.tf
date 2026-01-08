@@ -63,7 +63,7 @@ resource "google_compute_instance" "bastion" {
 
   metadata = merge(
     {
-      enable-oslogin = "TRUE"
+      enable-oslogin         = "TRUE"
       block-project-ssh-keys = "TRUE"
     },
     var.metadata
