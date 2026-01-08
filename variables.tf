@@ -108,3 +108,18 @@ variable "service_account_email" {
   type        = string
   default     = null
 }
+
+variable "domain" {
+  description = "Domaine principal"
+  type        = string
+  default     = "groupe1.pierremalherbe.com."
+}
+
+# ========================================
+# Bastion Configuration
+# ========================================
+variable "bastion_machine_type" {
+  description = "Type de machine pour le bastion"
+  type        = string
+  default     = "e2-micro"
+}
