@@ -98,7 +98,7 @@ module "bastion" {
   region              = var.region
   zone                = var.zone
   network_name        = module.vpc_bastion.network_name
-  subnet_self_link    = module.vpc_bastion.subnets["bastion"].self_link
+  subnet_self_link = module.vpc_bastion.subnet_self_link
   bastion_internal_ip = "10.0.1.10"
   machine_type        = var.bastion_machine_type
   enable_external_ip  = false
@@ -110,14 +110,15 @@ module "bastion" {
 module "load_balancer" {
   source         = "./modules/load_balancer"
   project_id     = var.project_id
-  instance_group = module.compute.instance_group
+  instance_group = module.frontend_instances.mig_instance_group
 }
 
 module "cdn" {
   source = "./modules/cdn"
   project_id = var.project_id
-  name_prefix = "bcfgcnfg"
+  name_prefix = "coucou-cdn-65161131616561981516515155555555"
 }
+
 module "dns" {
   source = "./modules/dns"
   project_id       = var.project_id

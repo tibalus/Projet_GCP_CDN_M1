@@ -61,15 +61,16 @@ output "backend_autoscaler_id" {
   description = "Backend autoscaler ID"
   value       = module.backend_instances.autoscaler_id
 }
-output "instance_external_ip" {
-  description = "The external IP of the instance"
-  value       = module.compute.instance_external_ip
-}
 
-output "instance_internal_ip" {
-  description = "The internal IP of the instance"
-  value       = module.compute.instance_internal_ip
-}
+# output "instance_external_ip" {
+#   description = "The external IP of the instance"
+#   value       = module.compute.instance_external_ip
+# }
+
+# output "instance_internal_ip" {
+#   description = "The internal IP of the instance"
+#   value       = module.compute.instance_internal_ip
+# }
 
 output "load_balancer_ip" {
   description = "The external IP of the load balancer"
