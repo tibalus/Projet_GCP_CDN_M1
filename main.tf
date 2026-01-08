@@ -21,9 +21,13 @@ module "load_balancer" {
   instance_group = module.compute.instance_group
 }
 
+module "cdn" {
+  source = "./modules/cdn"
+  project_id = var.project_id
+  name_prefix = "bcfgcnfg"
+}
 module "dns" {
   source = "./modules/dns"
-
   project_id       = var.project_id
   zone_name        = "groupe1-${var.environment}"
   domain           = var.domain
@@ -39,10 +43,16 @@ module "dns" {
 
   dns_records = [
     {
-      name    = "test"
+      name    = "app"
       type    = "A"
       ttl     = 300
       records = [module.load_balancer.lb_ip_address]
+    },
+    {
+      name = "cdn"
+      type = "A"
+      ttl = 300
+      records = [module.cdn.cdn_external_ip]
     }
   ]
 }

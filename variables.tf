@@ -32,10 +32,4 @@ variable "environment" {
   type        = string
   default     = "dev"
 }
-# Tableau avec les instances
-variable "services" {
-  default = {
-    "cdn" = { type = "A", ttl = 300, records = ["34.117.246.135"] }
-    "app" = { type = "A", ttl = 300, records = instance_internal_ip}
-  }
-}
+
