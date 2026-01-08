@@ -24,5 +24,5 @@ resource "google_dns_record_set" "records" {
   type         = each.value.type
   ttl          = each.value.ttl
   project      = var.project_id
-  rrdatas = each.value.records
+  rrdatas      = each.value.records
 }

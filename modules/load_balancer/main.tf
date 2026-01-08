@@ -5,10 +5,10 @@ resource "google_compute_global_address" "default" {
 
 # 2. Health Check
 resource "google_compute_health_check" "default" {
-  name               = "http-health-check"
-  check_interval_sec = 5
-  timeout_sec        = 5
-  healthy_threshold  = 2
+  name                = "http-health-check"
+  check_interval_sec  = 5
+  timeout_sec         = 5
+  healthy_threshold   = 2
   unhealthy_threshold = 2
 
   http_health_check {
@@ -26,8 +26,8 @@ resource "google_compute_backend_service" "default" {
   health_checks         = [google_compute_health_check.default.id]
 
   backend {
-    group = var.instance_group
-    balancing_mode = "UTILIZATION"
+    group           = var.instance_group
+    balancing_mode  = "UTILIZATION"
     max_utilization = 0.8
   }
 }

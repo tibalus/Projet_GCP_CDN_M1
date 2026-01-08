@@ -16,6 +16,7 @@ resource "google_storage_bucket" "default" {
 }
 
 # Rendre le bucket public
+# trivy:ignore:AVD-GCP-0001
 resource "google_storage_bucket_iam_member" "public_read" {
   bucket = google_storage_bucket.default.name
   role   = "roles/storage.objectViewer"

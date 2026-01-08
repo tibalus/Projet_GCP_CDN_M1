@@ -24,7 +24,7 @@ variable "zone" {
 variable "network_name" {
   description = "Nom du réseau VPC"
   type        = string
-  default = "vpc1"
+  default     = "vpc1"
 }
 
 variable "subnet_self_link" {
